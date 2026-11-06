@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jaric Wang — Portfolio</title>
+  <meta name="description" content="Welcome to Jaric Wang's portfolio website. Tune in for projects, experience, achievements and story.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- Decide before first paint: full TV boot on a fresh visit, quick static when changing channel -->
+  <script>
+    (function (h) {
+      h.classList.add('js');
+      var switching = false;
+      try { switching = sessionStorage.getItem('tv:switch') === '1'; } catch (e) {}
+      h.classList.add(switching ? 'tv-incoming' : 'tv-booting');
+    })(document.documentElement);
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,700;0,800;1,800&family=Bodoni+Moda:opsz,wght@6..96,400..900&family=VT323&display=swap">
+  <link rel="stylesheet" href="css/tv.css">
+  <link rel="stylesheet" href="css/boot.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body data-channel="00">
+  <div class="tv">
+    <div class="tv__screen">
+
+      <!-- Animated background -->
+      <div class="landing-bg" aria-hidden="true">
+        <canvas class="field"></canvas>
+        <div class="landing-bg__wash"></div>
+        <div class="landing-bg__bands"></div>
+      </div>
+
+      <!-- CH 00 — Welcome -->
+      <main class="screen-content landing" id="main">
+        <header class="meta meta--top">
+          <p class="meta__l" data-reveal style="--d: 0ms">
+            Jaric Wang<br>
+            <span class="u">(Portfolio /<br>Personal website)</span>
+          </p>
+          <p class="meta__c u" data-reveal style="--d: 80ms">
+            Now broadcasting<br>
+            CH 00 — Welcome
+          </p>
+          <!-- TODO: swap in your real email -->
+          <p class="meta__r u" data-reveal data-under-osd style="--d: 160ms">
+            Say hello<br>
+            <a href="mailto:your@email.com">(your@email.com)</a>
+          </p>
+        </header>
+
+        <section class="hero">
+          <div class="lockup">
+            <h1 class="lockup__title" aria-label="Welcome to Jaric Wang’s portfolio website">
+              <span class="lockup__pre" data-reveal style="--d: 150ms" aria-hidden="true">welcome to jaric wang’s</span>
+              <span class="lockup__word" data-reveal style="--d: 300ms" aria-hidden="true">portfolio</span>
+              <span class="lockup__post" data-reveal style="--d: 650ms" aria-hidden="true">website</span>
+            </h1>
+
+            <svg class="swash" viewBox="0 0 1000 430" aria-hidden="true">
+              <path class="swash__halo" pathLength="1" d="M 190 348 C 120 360 30 392 66 412 C 110 432 300 404 420 318 C 520 246 556 150 640 102 C 690 72 730 55 768 50"/>
+              <path class="swash__line" pathLength="1" d="M 190 348 C 120 360 30 392 66 412 C 110 432 300 404 420 318 C 520 246 556 150 640 102 C 690 72 730 55 768 50"/>
+              <g transform="translate(782 48)">
+                <polygon class="swash__star" points="0,-34 6,-10 29,-17 12,0 29,17 6,10 0,34 -6,10 -29,17 -12,0 -29,-17 -6,-10"/>
+              </g>
+            </svg>
+
+            <div class="badge" data-reveal style="--d: 1500ms" aria-hidden="true">
+              <span><i class="badge__dot"></i>Now</span>
+              <span>on air</span>
+            </div>
+          </div>
+        </section>
+
+        <footer class="meta meta--bottom">
+          <p class="meta__l u" data-reveal style="--d: 900ms">
+            Portfolio<br>
+            2026 edition
+          </p>
+          <a class="pill" href="menu.html" data-tune data-reveal style="--d: 1000ms">
+            Select channel
+            <svg class="pill__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <p class="meta__r u" data-reveal style="--d: 1100ms">
+            Remote<br>
+            <span class="kbd-only">Press 0–4 to tune</span>
+            <span class="touch-only">4 channels on air</span>
+          </p>
+        </footer>
+      </main>
+
+      <!-- Boot sequence (removed from the page once the picture is on) -->
+      <div class="boot" id="boot" data-stage="off">
+        <div class="boot__layer boot__bars" aria-hidden="true">
+          <div class="bars__top"></div>
+          <div class="bars__mid"></div>
+          <div class="bars__bottom"></div>
+        </div>
+        <canvas class="boot__layer boot__static" aria-hidden="true"></canvas>
+        <div class="standby" aria-hidden="true">
+          <p class="standby__title">Please stand by</p>
+          <p class="standby__sub">Tuning to CH 00 · Jaric Wang</p>
+          <div class="standby__meter"><span class="standby__fill"></span></div>
+          <p class="standby__pct">SIGNAL 000%</p>
+        </div>
+        <div class="boot__osd" aria-hidden="true">
+          <small>▮ Searching…</small>
+          <span>CH 00</span>
+        </div>
+        <div class="boot__layer boot__power" aria-hidden="true"></div>
+        <button class="boot__skip" type="button">Skip ▸▸</button>
+      </div>
+
+      <canvas class="tv-static" aria-hidden="true"></canvas>
+
+      <div class="crt" aria-hidden="true">
+        <div class="crt__lines"></div>
+        <div class="crt__grain"></div>
+        <div class="crt__glare"></div>
+        <div class="crt__vignette"></div>
+      </div>
+
+      <div class="osd" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script src="js/tv.js"></script>
+  <script src="js/field.js"></script>
+  <script src="js/boot.js"></script>
+</body>
+</html>

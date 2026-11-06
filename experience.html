@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Experience — Jaric Wang</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script>document.documentElement.classList.add('js', 'tv-incoming');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,700;0,800;1,800&family=Bodoni+Moda:opsz,wght@6..96,400..900&family=VT323&display=swap">
+  <link rel="stylesheet" href="css/tv.css">
+  <link rel="stylesheet" href="css/channel.css">
+</head>
+<body data-channel="03">
+  <div class="tv">
+    <div class="tv__screen">
+
+      <main class="screen-content page" id="main">
+        <header class="page__top">
+          <a class="back-link" href="menu.html" data-tune data-reveal>← Channel guide</a>
+          <p data-under-osd data-reveal>Jaric Wang<br>Portfolio</p>
+        </header>
+
+        <section class="page__body">
+          <p class="page__eyebrow" data-reveal style="--d: 60ms">CH 03</p>
+          <h1 class="page__title" data-reveal style="--d: 120ms">Experience</h1>
+          <p class="page__note" data-reveal style="--d: 220ms">No signal yet — programming coming soon</p>
+
+          <!-- TODO: Experience content goes here -->
+
+        </section>
+      </main>
+
+      <canvas class="tv-static" aria-hidden="true"></canvas>
+      <div class="crt" aria-hidden="true">
+        <div class="crt__lines"></div>
+        <div class="crt__grain"></div>
+        <div class="crt__glare"></div>
+        <div class="crt__vignette"></div>
+      </div>
+      <div class="osd" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script src="js/tv.js"></script>
+</body>
+</html>

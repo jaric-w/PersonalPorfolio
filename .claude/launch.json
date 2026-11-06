@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "url": "http://127.0.0.1:5173",
+      "port": 5173
+    },
+    {
+      "name": "portfolio-python",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5173"],
+      "port": 5173
+    }
+  ]
+}

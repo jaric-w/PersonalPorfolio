@@ -1,0 +1,211 @@
+/* ==========================================================================
+   Boot sequence (home page only)
+   off → power line → static → colour bars + "please stand by" loader
+   → glitch → picture.  Stages are driven by data-stage on .boot (boot.js).
+   ========================================================================== */
+
+.boot {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  overflow: hidden;
+  background: #060606;
+  color: #fff;
+  font-family: var(--font-osd);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tv-booting .boot { display: block; }
+.boot[data-stage="done"] {
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+
+.boot__layer { position: absolute; inset: 0; }
+
+/* ---------- 1. power on: a bright line that opens into a picture ---------- */
+
+.boot__power {
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, #fff 0%, #eef3f4 45%, #b9c3c6 100%);
+  transform: scale(0, .006);
+}
+[data-stage="power"] .boot__power { animation: power-on .5s cubic-bezier(.7, 0, .3, 1) forwards; }
+[data-stage="static"] .boot__power { animation: power-fade .5s ease-out forwards; }
+
+@keyframes power-on {
+  0%   { opacity: 1; transform: scale(0, .006); }
+  55%  { opacity: 1; transform: scale(1, .006); }
+  100% { opacity: .9; transform: scale(1, 1); }
+}
+@keyframes power-fade {
+  from { opacity: .9; transform: scale(1, 1); }
+  to   { opacity: 0;  transform: scale(1, 1); }
+}
+
+/* ---------- 2. static ---------- */
+
+.boot__static {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+[data-stage="static"] .boot__static { opacity: 1; }
+[data-stage="bars"]   .boot__static { opacity: .13; mix-blend-mode: screen; }
+[data-stage="glitch"] .boot__static,
+[data-stage="done"]   .boot__static { opacity: .9; }
+
+/* ---------- 3. colour bars ---------- */
+
+.boot__bars {
+  display: grid;
+  grid-template-rows: 64% 9% 1fr;
+  opacity: 0;
+  filter: saturate(.85) contrast(.95);
+}
+[data-stage="bars"] .boot__bars,
+[data-stage="glitch"] .boot__bars,
+[data-stage="done"] .boot__bars { opacity: 1; }
+[data-stage="bars"] .boot__bars { animation: bars-wobble 2.3s steps(1) infinite; }
+
+.bars__top {
+  background: linear-gradient(90deg,
+    #c0c0c0 0 14.2857%, #c0c000 0 28.5714%, #00c0c0 0 42.8571%, #00c000 0 57.1429%,
+    #c000c0 0 71.4286%, #c00000 0 85.7143%, #0000c0 0);
+}
+.bars__mid {
+  background: linear-gradient(90deg,
+    #0000c0 0 14.2857%, #131313 0 28.5714%, #c000c0 0 42.8571%, #131313 0 57.1429%,
+    #00c0c0 0 71.4286%, #131313 0 85.7143%, #c0c0c0 0);
+}
+.bars__bottom {
+  background: linear-gradient(90deg,
+    #00214c 0 17.86%, #ffffff 0 35.72%, #32006a 0 53.58%, #131313 0 76%,
+    #090909 0 80.7%, #131313 0 85.7%, #1d1d1d 0 90.5%, #131313 0);
+}
+
+@keyframes bars-wobble {
+  0%, 100% { transform: none; }
+  37%      { transform: translateX(-1.2%) skewX(-1deg); }
+  39%      { transform: none; }
+  71%      { transform: translateY(.8%); }
+  73%      { transform: none; }
+}
+
+/* ---------- "please stand by" loader ---------- */
+
+.standby {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(80%, 560px);
+  padding: clamp(16px, 3.4vmin, 34px) clamp(18px, 4.4vmin, 44px);
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, .84);
+  border: 2px solid rgba(255, 255, 255, .92);
+  font-size: clamp(20px, 3.6vmin, 40px);
+  line-height: 1;
+  letter-spacing: .06em;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 255, 255, .45);
+  opacity: 0;
+}
+[data-stage="bars"] .standby,
+[data-stage="glitch"] .standby { opacity: 1; }
+
+.standby__title { margin: 0 0 .3em; font-size: 1.45em; }
+.standby__sub   { margin: 0 0 1em;  font-size: .68em; opacity: .85; }
+.standby__meter {
+  height: .78em;
+  padding: 3px;
+  border: 2px solid #fff;
+}
+.standby__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, #fff 0 9px, transparent 9px 12px);
+  box-shadow: 0 0 8px rgba(255, 255, 255, .5);
+}
+.standby__pct { margin: .7em 0 0; font-size: .68em; }
+
+/* ---------- boot OSD + skip ---------- */
+
+.boot__osd {
+  position: absolute;
+  top: calc(var(--pad-y) * .9);
+  left: var(--pad-x);
+  right: var(--pad-x);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: clamp(26px, 4.6vmin, 56px);
+  line-height: .9;
+  color: var(--osd);
+  text-shadow: 0 0 8px rgba(141, 255, 106, .55), 2px 2px 0 rgba(0, 0, 0, .6);
+  letter-spacing: .04em;
+  opacity: 0;
+  pointer-events: none;
+}
+[data-stage="static"] .boot__osd,
+[data-stage="bars"] .boot__osd { opacity: 1; }
+.boot__osd small { font-size: .5em; animation: blink 1s steps(1) infinite; }
+[data-stage="bars"] .boot__osd small { animation: none; opacity: 0; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.boot__skip {
+  position: absolute;
+  right: var(--pad-x);
+  bottom: calc(var(--pad-y) * .8);
+  z-index: 2;
+  padding: 8px 12px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: clamp(18px, 2.8vmin, 30px);
+  letter-spacing: .08em;
+  text-shadow: 0 0 8px rgba(255, 255, 255, .5), 2px 2px 0 rgba(0, 0, 0, .6);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+[data-stage="static"] .boot__skip,
+[data-stage="bars"] .boot__skip { opacity: .7; }
+.boot__skip:hover,
+.boot__skip:focus-visible { opacity: 1; }
+.boot__skip:focus-visible { outline-color: #fff; }
+
+/* ---------- glitch, right before the picture locks in ---------- */
+
+[data-stage="glitch"] .boot__bars,
+[data-stage="glitch"] .standby { animation: glitch-roll .4s steps(5) forwards; }
+
+@keyframes glitch-roll {
+  0%   { transform: translateY(0); }
+  20%  { transform: translateY(-12%) skewX(4deg); }
+  40%  { transform: translateY(18%); }
+  60%  { transform: translateY(-30%) skewX(-3deg); }
+  80%  { transform: translateY(46%); }
+  100% { transform: translateY(100%); }
+}
+/* the standby box has its own centring transform */
+[data-stage="glitch"] .standby { animation-name: glitch-roll-box; }
+@keyframes glitch-roll-box {
+  0%   { transform: translate(-50%, -50%); }
+  20%  { transform: translate(-46%, -62%) skewX(4deg); }
+  40%  { transform: translate(-50%, -32%); }
+  60%  { transform: translate(-54%, -80%) skewX(-3deg); }
+  80%  { transform: translate(-50%, -4%); }
+  100% { transform: translate(-50%, 50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot__bars, .standby { animation: none !important; }
+}
